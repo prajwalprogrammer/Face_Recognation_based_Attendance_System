@@ -12,8 +12,10 @@ urlpatterns = [
     path('TakeImage/', TakeImage, name='TakeImage'),
     # path('TrainImage/', TrainImages, name='TrainImages'),
     path('desplayAttendance/', desplayAttendance, name='desplayAttendance'),
+    path('sendmail/', send_email, name='sendmail'),
 
     path('profile/', profile, name='pdata'),
+    path('GenerateCode/', GenerateCode, name='GenerateCode'),
     # path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
 
 
