@@ -69,37 +69,35 @@
       <h3><a class="logout" href="/logout/">Logout</a></h3> -->
       <h3 class="signUp-login">
         {% if request.user.is_staff %}
-        <a class="pad" href="/desplayAttendance"> Today's Attendance</a>
+        <a class="pad" href="/desplayAttendance"> Show Attendance</a>
         {% else %}
 
-        <a class="pad" href="/desplayAttendance"> My Attendance</a>
         <a class="pad" href="/MarkAttendance"> Mark Attendance</a>
         <a class="pad" href="/TakeImage"> Take Image</a>
+        <a class="pad" href="{% url 'profile' user.id %}">Edit Profile</a>
         {% endif %}
         <a class="pad" href="/logout"> Logout</a>
         <!-- <a class="pad" href="/logout"> Logout</a> -->
-        <a class="pad" href="{% url 'profile' user.id %}">Edit Profile</a>
       </h3>
     </header>
 
     <main>
       <div class="graphics">
         <img
-          class="graphic-img"
-          src="{% static 'images/profile-graphic.svg' %}"
+          src="{% static 'images/faceimage.gif' %}"
           alt=""
+          width="550px" height="460px"
         />
       </div>
 
       <div class="profile-info">
         <div class="user-profile-image-box">
-          <form class="user-profile-image-box" action="/addimage">
+         
             {% if request.user.is_staff %}
             <label for="img"
               ><img
-                class="profile-image"
-                src="{{request.user.Profile.image.url}}"
-                alt=""
+                src="{{request.user.userprofile.image.url}}"
+                width="100" height="100"
             /></label>
             <input
               style="visibility: hidden; width: 0; height: 0"
@@ -107,17 +105,16 @@
               id="img"
               name="img"
             />
-            {% else %} {% if images %}
+            {% else %} {% if request.user.userprofile.image.url %}
             <img
-              class="profile-image"
-              src="/media/Attendance/{{user.username}}.jpg"
+              src="{{request.user.userprofile.image.url}}"
+              width="100" height="100"
             />
 
             {% else %}
             <p>No image available.</p>
             {% endif %} {% endif %}
-            <input type="submit" value="Add image" />
-          </form>
+            
         </div>
 
         <div class="user-info">

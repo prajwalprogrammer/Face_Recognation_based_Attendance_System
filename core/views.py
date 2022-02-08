@@ -458,7 +458,7 @@ def send_email(request):
         print("\nSending email..")
         mail.send()
         print("Email sent successfully!")
-        messages.success(request, 'Your profile was successfully updated!')
+        messages.success(request, 'Mail Sent successfully!')
         
     except Exception as e:
         print("Sorry mail was not sent.")

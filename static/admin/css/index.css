@@ -32,8 +32,10 @@ header {
 }
 
 .profile-image {
-  height: 35px;
-  margin: 15px;
+  height: 45px;
+  margin: 50px;
+ 
+  border-radius: 50%;
 }
 .logo {
   margin: 0 auto 0 0;

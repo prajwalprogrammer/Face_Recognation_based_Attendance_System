@@ -6,8 +6,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{%static 'admin/css/util.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{%static 'admin/css/main.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{%static 'admin/css/util.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{%static 'admin/css/main.css' %}"
+    />
     <!--===============================================================================================-->
   </head>
   <body>
@@ -20,6 +28,53 @@
     </header>
     <main>
       <div class="container-table100">
+        <form
+          method="POST"
+          action="."
+          class="needs-validation"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <input type = "date" name = "date">
+          <div class="container">
+
+          <h4>Which option do you want to choose?</h4>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="optionsRadios"
+              id="exampleRadios1"
+              value="First"
+              checked
+            />
+            <label class="form-check-label" for="exampleRadios1"> First Year </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="optionsRadios"
+              id="exampleRadios2"
+              value="Second"
+            />
+            <label class="form-check-label" for="exampleRadios2"> Second Year</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="optionsRadios"
+              id="exampleRadios3"
+              value="Third"
+            />
+            <label class="form-check-label" for="exampleRadios3"> Third Year</label>
+          </div>
+          </div>
+          <button type="submit" class="btn btn-outline-success m-1">
+            Submit
+          </button>
+        </form>
         <div class="wrap-table100-nextcols js-pscroll">
           <div class="table100 ver1">
             <div class="table100-nextcols">
@@ -28,7 +83,7 @@
                   <tr class="row100 head">
                     <td class="cell100 column1">Enrollment No.</td>
                     <td class="cell100 column2">Name</td>
-                    <td class="cell100 column3">Class</td>
+                    <!-- <td class="cell100 column3">Class</td> -->
                     <td class="cell100 column4">Date</td>
                     <td class="cell100 column5">Time</td>
                   </tr>
@@ -38,11 +93,11 @@
 
                   <tr class="row100 body">
                     <td class="cell100 column1">{{s.0}}</td>
-                    <td class="cell100 column2">{{s.1}}</td>
-                    <td class="cell100 column3">{{s.2}}</td>
-                    <td class="cell100 column4">{{s.3}}</td>
-                    <td class="cell100 column5">{{s.4}}</td>
-                    <td class="cell100 column6">{{s.5}}</td>
+                    <td class="cell100 column2">{{s.2}}</td>
+                    <td class="cell100 column3">{{s.4}}</td>
+                    <td class="cell100 column4">{{s.6}}</td>
+                    <!-- <td class="cell100 column5">{{s.4}}</td>
+                    <td class="cell100 column6">{{s.5}}</td> -->
                   </tr>
                   {% endfor %} {% else %}
                   <p>No Data Found</p>
@@ -51,6 +106,7 @@
               </table>
             </div>
           </div>
+          <a href="{% url 'sendmail' %}"><button type="button" class="btn btn-outline-danger m-1">Mail me</button></a>
         </div>
       </div>
     </main>

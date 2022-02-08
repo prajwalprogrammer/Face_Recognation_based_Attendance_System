@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     # birthday=models.DateField(null=True)
     gender=models.CharField(null=True,max_length=6,choices=[('Male', 'Male'),
     ('Female', 'Female')])
-    image = models.ImageField(upload_to='Student_profile',null=True)
+    image = models.ImageField(upload_to='Student_profile/',null=True)
 
 
     def __str__(self):
