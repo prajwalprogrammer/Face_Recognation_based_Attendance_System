@@ -31,12 +31,12 @@ urlpatterns = [
     path('', include(core_urls)),
 
     # Login and Logout
-    path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True, template_name='auth/login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True, template_name='auth/loginDash.html'), name='login'),
     # path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True, template_name='commons/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
 
     # Main Page 
-    path('', TemplateView.as_view(template_name='auth/index.html'), name='home'), 
+    path('', TemplateView.as_view(template_name='auth/Dashboard.html'), name='home'), 
     # path('', TemplateView.as_view(template_name='auth/index.html'), name='index'), 
 
     # Change Password

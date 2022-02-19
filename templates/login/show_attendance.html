@@ -1,0 +1,167 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>EDI PROJECT</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="{% static 'admin/css/styleDash.css' %}">
+  <!-- <link rel="stylesheet" type="text/css" href="{%static 'admin/css/afterlogin/style.css' %}" /> -->
+  <link rel="stylesheet" type="text/css" href="{%static 'admin/css/afterlogin/assets/css/fontawesome.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{%static 'admin/css/afterlogin/assets/css/owl.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{%static 'admin/css/afterlogin/assets/css/templatemo-sixteen.css' %}" />
+
+</head>
+
+<body>
+
+  <body bgcolor="#F2F2F2">
+    <!-- Header -->
+    <section id="header">
+      <div class="header">
+        <div class="nav-bar">
+          <div class="brand">
+            <a href="/">
+
+              <h1><span>A</span>ttendance <span>Management </span>System </h1>
+            </a>
+          </div>
+          <div class="nav-list">
+            
+            <ul>
+              <li><a href="/profile" data-after="Projects">profile</a></li>
+              <li><a href="/logout" data-after="Projects">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <body>
+
+      <font size="4.5" style="position: relative; font-family: serif;">
+        <div style="position: relative; margin-top: 130px; margin-left: 200px">
+          <form method="POST" action="." class="needs-validation" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="date" name="date">
+            <br><br>
+            <label>Choose Year From Below </label>
+            <select id="" name="optionsRadios" style="position: relative; margin-left: 60px">
+              <option>Years</option>
+              <option value="First">First Year</option>
+              <option value="Second">Second Year</option>
+              <option value="Third">Third Year</option>
+            </select>
+            <br><br>
+            <input type="submit" name="" value="Submit"
+              style="position: relative; width: 370px; height: 30px; background-color:rgba(31, 30, 30, 0.24) ; color: red; font-family: serif; border: none">
+          </form>
+          <a href="{% url 'sendmail' %}"><input type="button" name="" value="Mail Me"
+              style="position: relative; width: 370px;margin-top: 10px; height: 30px; background-color:rgba(31, 30, 30, 0.24) ; color: rgb(14, 12, 12); font-family: serif; border: none">
+         </a>
+        </div>
+      </font>
+      <div style="position: relative; margin-top: 50px; margin-left: 150px; text-align: center;">
+        <table border="3">
+          <tr>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                PRN No
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                Time
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                Date
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                Name
+              </font>
+            </td>
+          </tr>
+
+         
+          {% if data %} {% for s in data %}
+          <tr>
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                {{s.0}}
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                {{s.2}}
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                {{s.4}}
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                {{s.6}}
+              </font>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <p>No Data Found</p>
+          {% endif %}
+        </table>
+      </div>
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+      <!-- Additional Scripts -->
+      <script src="assets/js/custom.js"></script>
+      <script src="assets/js/owl.js"></script>
+      <script src="assets/js/slick.js"></script>
+      <script src="assets/js/isotope.js"></script>
+      <script src="assets/js/accordions.js"></script>
+
+
+      <script language="text/Javascript">
+        cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+        function clearField(t) {                   //declaring the array outside of the
+          if (!cleared[t.id]) {                      // function makes it static and global
+            cleared[t.id] = 1;  // you could use true and false, but that's more typing
+            t.value = '';         // with more chance of typos
+            t.style.color = '#fff';
+          }
+        }
+      </script>
+    </body>
+
+</html>
