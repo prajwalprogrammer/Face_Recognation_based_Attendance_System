@@ -350,10 +350,22 @@ def TrackImages(request):
         exists = os.path.isfile(pathAttenda)
         existAtten = os.path.isfile(allAttendances)
         if exists and existAtten:
-            with open(pathAttenda, 'a+') as csvFile1:
-                writer = csv.writer(csvFile1)
-                writer.writerow(attendance)
-            csvFile1.close()
+            with open(pathAttenda, 'r+') as f:
+                myDataList = f.readlines()
+                nameList = []
+                for line in myDataList:
+                    entry = line.split(',,')
+                    nameList.append(entry[0])
+                    print(nameList)
+                if str(request.user.userprofile.prn) not in nameList:
+                    with open(pathAttenda, 'a+') as csvFile1:
+                        writer = csv.writer(csvFile1)
+                        writer.writerow(attendance)
+                    csvFile1.close()
+            # with open(pathAttenda, 'a+') as csvFile1:
+            #     writer = csv.writer(csvFile1)
+            #     writer.writerow(attendance)
+            # csvFile1.close()
             with open(allAttendances, 'a+') as csvFile2:
                 writer = csv.writer(csvFile2)
                 writer.writerow(attendance)
@@ -415,31 +427,33 @@ def desplayAttendance(request):
         datetimeobject = datetimeobject.strftime('%d-%m-%Y')
         print(datetimeobject)
         allAttendances="Attendance\_"+year+"__"+datetimeobject + ".csv"
-    existAtten = os.path.isfile(allAttendances)
-    print(existAtten)
-    if existAtten:
-        with open(allAttendances, 'r') as read_obj:
-            read_file = csv.reader(read_obj)
+        existAtten = os.path.isfile(allAttendances)
+        print(existAtten)
+        if existAtten:
+            with open(allAttendances, 'r') as read_obj:
+                read_file = csv.reader(read_obj)
 
-            def fun(variable):
-                # print(variable[0])
-                letters = str(request.user.userprofile.prn)
-                if (variable[0] in letters):
-                    # print(letters)
+                def fun(variable):
+                    # print(variable[0])
+                    letters = str(request.user.userprofile.prn)
+                    if (variable[0] in letters):
+                        # print(letters)
 
-                    return True
+                        return True
+                    else:
+                        return False
+                # filtered = filter(fun, read_file)
+                reader = csv.reader(open(allAttendances, 'r'),delimiter=' ')
+                filtered = filter(lambda p: request.user.userprofile.prn == p[0], reader)
+                print(read_file)
+                if request.user.is_staff:
+                    context = {'data': read_file}
                 else:
-                    return False
-            # filtered = filter(fun, read_file)
-            reader = csv.reader(open(allAttendances, 'r'),delimiter=' ')
-            filtered = filter(lambda p: request.user.userprofile.prn == p[0], reader)
-            print(read_file)
-            if request.user.is_staff:
-                context = {'data': read_file}
-            else:
-                context = {'data': filtered}
-            print("gvgv",context)
-            return render(request, 'login/show_attendance.html', context)
+                    context = {'data': filtered}
+                print("gvgv",context)
+                return render(request, 'login/show_attendance.html', context)
+    else:
+        return render(request, 'login/show_attendance.html')
 
 
 #############Send Mail##########
@@ -449,7 +463,7 @@ def send_email(request):
     print(allAttendances)
     subject = allAttendances
     message = "Hi, \nPlease find the attached csv containing attendance Record."
-    email = "shruti.devshetwar21@vit.edu"
+    email = "shruti.devshatwar21@vit.edu"
 
     try:
         file2=open(allAttendances,"r")

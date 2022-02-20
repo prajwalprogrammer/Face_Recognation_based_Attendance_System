@@ -79,32 +79,6 @@
       </font>
       <div style="position: relative; margin-top: 50px; margin-left: 150px; text-align: center;">
         <table border="3">
-          <tr>
-
-            <td style="position: relative; height: 32px; width:265px">
-              <font size="4.5">
-                PRN No
-              </font>
-            </td>
-
-            <td style="position: relative; height: 32px; width:265px">
-              <font size="4.5">
-                Time
-              </font>
-            </td>
-
-            <td style="position: relative; height: 32px; width:265px">
-              <font size="4.5">
-                Date
-              </font>
-            </td>
-
-            <td style="position: relative; height: 32px; width:265px">
-              <font size="4.5">
-                Name
-              </font>
-            </td>
-          </tr>
 
          
           {% if data %} {% for s in data %}
@@ -134,7 +108,43 @@
             </td>
           </tr>
           {% endfor %} {% else %}
-          <p>No Data Found</p>
+          <tr>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                PRN No
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                Time
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                Date
+              </font>
+            </td>
+
+            <td style="position: relative; height: 32px; width:265px">
+              <font size="4.5">
+                Name
+              </font>
+            </td>
+          </tr>
+          <tr>
+            <td style="position: relative; height: 32px; width:265px">
+            <h4>No Data Found</h4></td>
+          
+            <td style="position: relative; height: 32px; width:265px">
+            <h4>No Data Found</h4></td>
+            <td style="position: relative; height: 32px; width:265px">
+            <h4>No Data Found</h4></td>
+            <td style="position: relative; height: 32px; width:265px">
+            <h4>No Data Found</h4></td>
+          </tr>
           {% endif %}
         </table>
       </div>
