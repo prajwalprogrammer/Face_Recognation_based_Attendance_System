@@ -463,7 +463,8 @@ def send_email(request):
     print(allAttendances)
     subject = allAttendances
     message = "Hi, \nPlease find the attached csv containing attendance Record."
-    email = "shruti.devshatwar21@vit.edu"
+    email = request.user.email
+    print(email)
 
     try:
         file2=open(allAttendances,"r")

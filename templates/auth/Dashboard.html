@@ -28,8 +28,19 @@
           <ul>
             {%if user.is_authenticated %}
             <div class="profile-box">
+              
               <a href="/profile">
+                {% if request.user.is_staff %}
+                  <label for="img"><img src="{{request.user.userprofile.image.url}}"
+                      style="width:100px;height:100px;border-radius: 50%;" /></label>
+                  <input style="visibility: hidden; width: 0; height: 0" type="image" id="img" name="img" />
+                  {% else %} {% if request.user.userprofile.image.url %}
+                  <img src="{{request.user.userprofile.image.url}}"
+                    style="width:100px;height:100px;  border-radius: 50%;" />
+
+                  {% else %}
                 <img class="" src="{%static 'images/profile-icon.svg' %}" alt="" />
+                {% endif %}{% endif %}
               </a>
               <!-- <h3 class="User-name">{{user.first_name}}</h3> -->
               <li><a href="/profile" data-after="Home">{{user.first_name}}</a></li>

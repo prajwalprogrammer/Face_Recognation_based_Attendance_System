@@ -6,13 +6,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'admin/css/styleDash.css' %}">
-  
+
   <!-- <link rel="stylesheet" href="{% static 'admin/css/details.css' %}"> -->
   <!-- <link rel="stylesheet" href="{% static 'admin/css/body.css' %}"> -->
   <link rel="stylesheet" href="{% static 'admin/css/login1.css' %}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
 
   <title>EDI PROJECT</title>
@@ -24,7 +26,7 @@
     <div class="header">
       <div class="nav-bar">
         <div class="brand">
-          <a href="#hero">
+          <a href="/">
             <h1><span>A</span>ttendance <span>Management </span>System </h1>
           </a>
         </div>
@@ -35,7 +37,7 @@
           <ul>
             <li><a href="/" data-after="Home">Home</a></li>
             <li><a href="/#about" data-after="Projects">About Us</a></li>
-            <li><a href="/" data-after="About">Login</a></li>
+            <li><a href="/login" data-after="About">Login</a></li>
             <li><a href="/#contact" data-after="Contact">Contact</a></li>
           </ul>
         </div>
@@ -55,40 +57,54 @@
         </div>
         <div class="d-flex justify-content-center form_container">
           <form method="POST">
-          {% csrf_token %}
-          <font size="4">User Name</font>
-          <div class="input-group mb-3">
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="fas fa-user"></i></span>
+            {% csrf_token %}
+            <font size="4">User Name</font>
+            <div class="input-group mb-3">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <font size="4">{{ form.username }} </font>
+              <!-- {{ form.username }} -->
             </div>
-            <font size="4">{{ form.username }} </font>
-            <!-- {{ form.username }} -->
-          </div>
-          <font size="4">Password</font>
-          <div class="input-group mb-2">
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="fas fa-key"></i></span>
-            </div>
-           
-            <font size="4"> {{ form.password }} </font>
+            
+            <p>
+          {% if form.errors %}
+            {% for error in form.errors %}
+            <font size="2" color="red">Invalid Credentials</font>
+            {% endfor %}
+          {% endif %}</p>
+            <font size="4">Password</font>
+            <div class="input-group mb-2">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+              </div>
 
-          </div>
-          <div class="form-group">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customControlInline">
-              <label class="custom-control-label" for="customControlInline">            <font size="4">Remember me</font>
-              </label>
+              <font size="4"> {{ form.password }} </font>
+
             </div>
-          </div>
+            {% if form.errors %}
+            {% for error in form.errors %}
+            <font size="2" color="red">Invalid Credentials</font>
+            {% endfor %}
+          {% endif %}
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customControlInline">
+                <label class="custom-control-label" for="customControlInline">
+                  <font size="4">Remember me</font>
+                </label>
+              </div>
+            </div>
             <div class="d-flex justify-content-center mt-3 login_container">
-         <button type="submit" name="button.25847-/" class="btn login_btn">            <font size="4">Login</font>
-         </button>
-         </div>
-        </form>
+              <button type="submit" name="button.25847-/" class="btn login_btn">
+                <font size="4">Login</font>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <!-- Footer -->
   <section id="footer">
     <div class="footer container">
@@ -101,15 +117,15 @@
         <div class="social-item">
           <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
         </div>
-        
+
         <div class="social-item">
           <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/instagram-new.png" /></a>
         </div>
-        
+
         <div class="social-item">
           <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/twitter.png" /></a>
         </div>
-        
+
         <div class="social-item">
           <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/behance.png" /></a>
         </div>
@@ -118,8 +134,7 @@
       <p>Copyright © 2022 Unique. All rights reserved</p><br>
     </div>
   </section>
-  
+
 </body>
 
 </html>
-
