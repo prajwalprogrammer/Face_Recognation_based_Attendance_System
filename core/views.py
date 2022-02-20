@@ -28,10 +28,6 @@ from threading import Timer
 from prompt_toolkit import prompt
 from tkinter import simpledialog
 
-
-application_window = tk.Tk()
-
-AuthCode=""
 # Sign Up View
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -49,9 +45,6 @@ class ProfileView(UpdateView):
 
 class ProfileView1(UpdateView):
     model = up
-    # form_classes = {'form': ProfileForm,
-    #                 'form1': UserProfile,
-    #                 }
     form_class = UserProfile
     success_url = reverse_lazy('home')
     template_name = 'commons/profile.html'
@@ -75,74 +68,17 @@ def displayattendance(request):
     
 
 
-def index(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        # profile_form = UserProfile(request.POST)
-        if form.is_valid() and profile_form.is_valid():
-            post = form.save()
-            # profilepost = profile_form.save(commit=False)
-            # profilepost.user=post 
-            post.user = request.user 
-            post.save()
-            # profilepost.save()
-            return redirect('login')
-    else:
-        form = SignUpForm()
-        profile_form=UserProfile()
-    context = {'form' : form,'profile_form':profile_form}
-
-    return render_to_response('commons/signup.html',context,  RequestContext(request))
-#   return render(request, 'commons/signup.html', context)
 
 
-def clearToken():
-    global AuthCode
-    AuthCode=""
 
 
 @login_required
 def home(request):
     return render(request, "auth/login.html", {})
 def profile(request):
-    if request.method == 'POST':
-        digits = [i for i in range(0, 10)]
-
-        ## initializing a string
-        
-        global AuthCode
-        AuthCode=""
-        for i in range(6):
-            index = math.floor(random.random() * 10)
-            AuthCode += str(digits[index])
-        r = Timer(300.0, clearToken)
-        r.start()
-        ## displaying the random string
-        print(AuthCode)
-        return render(request, 'auth/profile.html', {'data':AuthCode })
-    else:
-        return render(request, "login/stud_att.html", {})
+    return render(request, "login/stud_att.html", {})
  
-def register(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        form1 = UserProfile(request.POST)
-        if form.is_valid() and form1.is_valid():
-            user=form.save()
-            profile=form1.save(commit=False)
-            profile.user=user
-            profile.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username = username, password = password)
-            login(request, user)
-            return redirect('home')
-    else:
-        form = SignUpForm()
-        form1=UserProfile()
-    return render(request, 'auth/register.html', {'form': form,'form1':form1})
 
-########################
 
 def assure_path_exists(path):
     dir = os.path.dirname(path)
@@ -172,7 +108,6 @@ def TakeImage(request):
         columns = ['SERIAL NO.', '', 'ID', '', 'NAME']
         assure_path_exists(details)
         assure_path_exists("TrainingImage/")
-        directory = r'D:\How-to-use-Built-In-Login-and-Logout-Authentication-System-in-Django\Images'
 
         serial = 0
         exists = os.path.isfile(detailsCSV)
@@ -202,18 +137,13 @@ def TakeImage(request):
                 faces = detector.detectMultiScale(gray, 1.3, 5)
                 for (x, y, w, h) in faces:
                     cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                    # incrementing sample number
                     sampleNum = sampleNum + 1
-                    # saving the captured face in the dataset folder TrainingImage
                     cv2.imwrite("TrainingImage\ " + name + "." + str(serial) + "." + Id + '.' + str(sampleNum) + ".jpg",
                                 gray[y:y + h, x:x + w])
-                    # display the frame
                     cv2.imshow('Taking Images', img)
-                # wait for 100 miliseconds
                 
                 if cv2.waitKey(100) & 0xFF == ord('q'):
                     break
-                # break if the sample number is morethan 100
                 elif sampleNum > 100:
                     break
             cam.release()
@@ -230,7 +160,6 @@ def TakeImage(request):
         else:
             if (name.isalpha() == False):
                 res = "Enter Correct name"
-                # message.configure(text=res)
     return redirect('pdata')
 
 
@@ -250,39 +179,26 @@ def TrainImages(request):
         return
     recognizer.save("TrainingImageLabel\Trainner.yml")
     messages.success(request, 'Your profile Trained successfully !')
-    print('Total Registrations till now  : ' + str(ID[0]))
-    # return HttpResponseRedirect(reverse_lazy("pdata"))
 
 
 
 def getImagesAndLabels(path):
-    # get the path of all the files in the folder
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
-    # create empth face list
     faces = []
-    # create empty ID list
     Ids = []
-    # now looping through all the image paths and loading the Ids and the images
     for imagePath in imagePaths:
-        # loading the image and converting it to gray scale
         pilImage = Image.open(imagePath).convert('L')
-        # Now we are converting the PIL image into numpy array
         imageNp = np.array(pilImage, 'uint8')
-        # getting the Id from the image
         ID = int(os.path.split(imagePath)[-1].split(".")[1])
-        # extract the face from the training image sample
         faces.append(imageNp)
         Ids.append(ID)
     return faces, Ids
 
 
-############### Take Attributes #############
 def TrackImages(request):
     if request.user.first_name=="":
         messages.error(request, 'please register your face first!')
     else:
-        # text = prompt("Enter Verification Code!!")
-        # if text == AuthCode:   
         detailsAtte = "Attendance/"+request.user.userprofile.year+"/"
         detailsCSVAtte = "Attendance/"+request.user.userprofile.year+"/StudentDetails.csv"
         
@@ -291,8 +207,6 @@ def TrackImages(request):
         check_haarcascadefile()
         assure_path_exists("Attendance/"+request.user.userprofile.year)
         assure_path_exists("StudentDetails/"+request.user.userprofile.year)
-        # for k in tv.get_children():
-        #     tv.delete(k)
         msg = ''
         i = 0
         j = 0
@@ -362,10 +276,6 @@ def TrackImages(request):
                         writer = csv.writer(csvFile1)
                         writer.writerow(attendance)
                     csvFile1.close()
-            # with open(pathAttenda, 'a+') as csvFile1:
-            #     writer = csv.writer(csvFile1)
-            #     writer.writerow(attendance)
-            # csvFile1.close()
             with open(allAttendances, 'a+') as csvFile2:
                 writer = csv.writer(csvFile2)
                 writer.writerow(attendance)
@@ -398,22 +308,7 @@ def TrackImages(request):
 
     return HttpResponseRedirect(reverse('pdata'))
 
-def GenerateCode(request):
-    digits = [i for i in range(0, 10)]
 
-    ## initializing a string
-    
-    global AuthCode
-    
-    for i in range(6):
-        index = math.floor(random.random() * 10)
-        AuthCode += str(digits[index])
-
-    ## displaying the random string
-    print(AuthCode)
-    return render(request, 'auth/profile.html', {'form':AuthCode })
-
-######################
 allAttendances=''
 
 def desplayAttendance(request):
@@ -481,33 +376,6 @@ def send_email(request):
         messages.error(request, 'unable to send Mail!')
     return HttpResponseRedirect(reverse_lazy("pdata"))
 
-####################################
-
-def add_profile(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        form1 = UserProfile(request.POST,request.FILES)
-        
-        if form.is_valid() and form1.is_valid():
-            # user=form.save()
-            # profile=form1.save(commit=False)
-            # profile.user=user
-            # profile.save()
-            # username = form.cleaned_data.get('username')
-            # prn = form1.cleaned_data.get('prn')
-            # TakeImage(username,prn)
-            username = form.cleaned_data.get('username')
-            prn = form1.cleaned_data.get('prn')
-            TakeImage(username,prn)
-            password = form.cleaned_data.get('password1')
-            # user = authenticate(username = username, password = password)
-            # login(request, user)
-            # return HttpResponseRedirect(reverse('login'))
-            # return redirect('login')
-    else:
-        form = SignUpForm()
-        form1=UserProfile()
-    return render(request, 'auth/add_profile.html', {'form': form,'form1':form1})
 
 
 
